@@ -11,7 +11,10 @@ This is not meant to be a huge and robust system. It is setup to run on modern C
 ## Requirements
 
 * Python: 3
-* YAML: `PyYAML` (`pip install pyyaml`)
+* YAML: `PyYAML`
+  * `yum install python34-PyYAML`
+  * `apt-get install python3-yaml`
+  * `pip install pyyaml`
 * CentOS or Ubuntu (it will raise `NotImplementedError` if run on another system)
 
 ## Configuration
