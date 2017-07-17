@@ -121,6 +121,20 @@ python34.x86_64        3.4.5-4.el7   Init Scripts   http://mirror.a.b.xyz/fedora
 Ran on localhost.localdomain (centos) at 07/16/17 20:44:31
 ```
 
+Example output for an unapproved repository w/category output sorted:
+```sh
+$ python3 forkerator.py -c -sc
+
+Unconfigured Upstream Repos and/or Unapproved Packages with Category
+
+category         package                  version       repository
+--------         -------                  -------       ----------
+*unknown*        python34-libs.x86_64     3.4.5-4.el7   http://mirror.a.b.xyz.net/epel/7/x86_64/
+Init Scripts     python34.x86_64          3.4.5-4.el7   http://mirror.a.b.xyz.net/epel/7/x86_64/
+
+Ran on localhost.localdomain (centos) at 07/16/17 21:17:11
+```
+
 Example output for no unapproved repos or packages:
 ```sh
 $ python3 forkerator.py
