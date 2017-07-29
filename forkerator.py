@@ -12,17 +12,18 @@ import sys
 import time
 
 try:
-  import yaml 
-except ImportError as e:
-  print("\n## pyyaml not installed")
-  dist = platform.dist()[0]
-  if dist == 'Ubuntu':
-    print("## run: apt-get install python3-yaml \n \n \n")
-  elif dist == 'centos':
-    print("## run: yum install python34-yaml \n \n \n")
-  else:
-    self.log.error('Unsupported Distribution: {0}'.format(self.dist))
-    raise NotImplementedError
+    import yaml
+except ImportError:
+    print('\n## pyyaml not installed')
+    dist = platform.dist()[0]
+    if dist == 'Ubuntu':
+        print('## run: apt-get install python3-yaml')
+    elif dist == 'centos':
+        print('## run: yum install python34-yaml')
+    else:
+        print('Unsupported Distribution: {0}'.format(dist))
+        raise NotImplementedError
+
 
 class Forkerator(object):
     """Instantiate a Forkerator."""
@@ -172,7 +173,7 @@ class Forkerator(object):
                                 break
                             else:
                                 continue
-                        except IndexError as e:
+                        except IndexError:
                             continue
 
                     self.save_package_details(package_name, package_version, package_repo_shortname)
@@ -276,7 +277,7 @@ class Forkerator(object):
                     except AttributeError:
                         category = '*unknown*'
 
-                    print('{0: <40}\t{1: <25}\t{2: <20}\t{3}'.format(package, package_details['version'], category, package_details['repository']))              
+                    print('{0: <40}\t{1: <25}\t{2: <20}\t{3}'.format(package, package_details['version'], category, package_details['repository']))
 
         # Sort by package name by default.
         else:
