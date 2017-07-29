@@ -11,8 +11,18 @@ import subprocess
 import sys
 import time
 
-import yaml
-
+try:
+  import yaml 
+except ImportError as e:
+  print("\n## pyyaml not installed")
+  dist = platform.dist()[0]
+  if dist == 'Ubuntu':
+    print("## run: apt-get install python3-yaml \n \n \n")
+  elif dist == 'centos':
+    print("## run: yum install python34-yaml \n \n \n")
+  else:
+    self.log.error('Unsupported Distribution: {0}'.format(self.dist))
+    raise NotImplementedError
 
 class Forkerator(object):
     """Instantiate a Forkerator."""
