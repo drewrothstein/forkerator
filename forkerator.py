@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Simple forked package and configuration output tracker."""
 
 import argparse
@@ -23,6 +22,14 @@ except ImportError:
     else:
         print('Unsupported Distribution: {0}'.format(dist))
         raise NotImplementedError
+
+# Supports >= 2.7 and >= 3.3 at this time.
+version = sys.version_info
+if (version[0] == 2 and version[1] >= 7) or (version[0] == 3 and version[1] >= 3):
+    python_major = version[0]
+else:
+    print('Unsupported Python Version: {0}.{1}'.format(version[0], version[1]))
+    raise OSError
 
 
 class Forkerator(object):
@@ -86,7 +93,11 @@ class Forkerator(object):
 
     def reponame_shortname_to_url(self):
         """Gets all repositories and maps the short names to urls."""
-        repos_command_output = subprocess.getoutput(self.repo_command)
+        if python_major == 3:
+            repos_command_output = subprocess.getoutput(self.repo_command)
+        else:
+            repos_command_output = subprocess.Popen(self.repo_command, stdout=subprocess.PIPE, shell=True).communicate()[0]
+
         repo_list = repos_command_output.split('\n')
         if self.dist == 'Ubuntu':
             """
@@ -143,7 +154,10 @@ class Forkerator(object):
         Returns:
             A dict of package > version and repository information.
         """
-        installed_package_command_output = subprocess.getoutput(self.package_command)
+        if python_major == 3:
+            installed_package_command_output = subprocess.getoutput(self.package_command)
+        else:
+            installed_package_command_output = subprocess.Popen(self.package_command, stdout=subprocess.PIPE, shell=True).communicate()[0]
         package_list = installed_package_command_output.split('\n')
 
         if self.dist == 'Ubuntu':
@@ -186,8 +200,8 @@ class Forkerator(object):
             """
             for package in package_list:
                 package_split = package.split()
-                package_name = package_split[0]
                 try:
+                    package_name = package_split[0]
                     package_version = package_split[1]
                     package_repo_shortname = package_split[2].split('@')[1]
                 except IndexError:
